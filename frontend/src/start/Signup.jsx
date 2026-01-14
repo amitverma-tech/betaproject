@@ -57,11 +57,12 @@ function Signup() {
         form.append(key, value)
       );
 
-      const res = await axios.post(
-        "${import.meta.env.VITE_API_URL}/api/user/signup",
-        form,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+     const res = await axios.post(
+  `${import.meta.env.VITE_API_URL}/api/user/signup`,
+  form,
+  { headers: { "Content-Type": "multipart/form-data" } }
+);
+
 
       alert(res.data.message);
       navigate("/login");
