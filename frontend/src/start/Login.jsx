@@ -39,13 +39,14 @@ function Login() {
 
 const handleLogin = async (e) => {
   e.preventDefault();
- const res = await axios.post(
+const res = await axios.post(
   `${import.meta.env.VITE_API_URL}/api/user/login`,
   {
     email,
     password,
   }
 );
+
 
 
     alert(res.data.message);
