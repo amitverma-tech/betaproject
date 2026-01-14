@@ -13,6 +13,7 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   // const handleLogin = async (e) => {
@@ -39,6 +40,8 @@ function Login() {
 
 const handleLogin = async (e) => {
   e.preventDefault();
+  setLoading(true);
+
   try {
     const res = await api.post("/api/user/login", {
       email,
@@ -50,18 +53,16 @@ const handleLogin = async (e) => {
     localStorage.setItem("userId", res.data.user._id);
     localStorage.setItem("username", res.data.user.name);
     localStorage.setItem("photo", res.data.user.photo || "/profile.png");
-
-    // ⭐⭐ FIXED LINE (MOST IMPORTANT)
-    localStorage.setItem(
-      "isFirstLogin",
-      String(res.data.isFirstLogin)
-    );
+    localStorage.setItem("isFirstLogin", String(res.data.isFirstLogin));
 
     navigate("/maindashboard");
   } catch (error) {
     alert(error.response?.data?.message || "Login failed");
+  } finally {
+    setLoading(false);
   }
 };
+
 
 
 
@@ -147,9 +148,25 @@ const handleLogin = async (e) => {
             </button>
           </div>
 
-          <button type="submit" className="login-submit-btn">
-            Log In
-          </button>
+          <button
+  type="submit"
+  className="login-submit-btn"
+  disabled={loading}
+>
+  {loading ? (
+    <>
+      <span
+        className="spinner-border spinner-border-sm me-2"
+        role="status"
+        aria-hidden="true"
+      ></span>
+      Signing In...
+    </>
+  ) : (
+    "Log In"
+  )}
+</button>
+
         </form>
 
         <div className="login-or-divider">
