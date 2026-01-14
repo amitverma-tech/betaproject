@@ -58,7 +58,7 @@ function Signup() {
       );
 
       const res = await axios.post(
-        "http://localhost:2008/api/user/signup",
+        "${import.meta.env.VITE_API_URL}/api/user/signup",
         form,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
